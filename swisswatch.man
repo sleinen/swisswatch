@@ -24,6 +24,7 @@ choose a different color for the background.
 .B \-tick \fItime\fB
 the interval between updates of the display.  This should be a
 positive floating-point number.
+.TP 8
 .B \-geometry \fIgeometry\fB
 define the initial window geometry; see \fIX(1)\fP.
 .TP 8
