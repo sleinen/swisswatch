@@ -1,0 +1,240 @@
+.TH SWISSWATCH 1 "Release 5" "X Version 11"
+.SH NAME
+swisswatch \- the mother of all X Toolkit clocks
+.SH SYNOPSIS
+.B swisswatch
+[-option ...]
+.SH DESCRIPTION
+.I Swisswatch
+is an analog clock for X that is highly customizable by means of
+resources.
+.SH SYNOPSIS
+Handles minute-hand display correctly when ticking more often than once
+a minute.
+
+Handles arbitrary number of hands and/or mark specifications.
+.SH OPTIONS
+.TP 8
+.B \-fg \fIforeground color\fB
+choose a different color for the hands and marks.
+.TP 8
+.B \-bg \fIbackground color\fB
+choose a different color for the background.
+.TP 8
+.B \-tick \fItime\fB
+the interval between updates of the display.  This should be a
+positive floating-point number.
+.B \-geometry \fIgeometry\fB
+define the initial window geometry; see \fIX(1)\fP.
+.TP 8
+.B \-display \fIdisplay\fB
+specify the display to use; see \fIX(1)\fP.
+.TP 8
+.B \-noshape
+causes the clock to not reshape itself and ancestors to exactly
+fit the outline of the clock.
+.TP 8
+.B \-railroad
+.TP 8
+.B \-sbb
+.TP 8
+.B \-cff
+.TP 8
+.B \-ffs
+causes the second and minute hands to behave differently at the turn
+of the minute.  This mode tries to mimick the Look and Feel of the
+swiss federal railway clocks.
+.SH RESOURCES
+.TP 8
+.B .tickTime / .TickTime
+Time between ticks, in seconds.  The hands will move this often.  (All
+hands have their positions recomputed and redrawn each time the clock
+ticks.)  This is a floating-point value, though values less than the
+system's clock resolution will not work very well. Ticks occur
+precisely on the appropriate boundary, regardless of when the program
+was started; for example, if tickTime is 5, ticks occur precisely when
+gettimeofday().tv_sec%5 changes.
+.TP 8
+.B .numMarks / .NumMarks
+Number of sets of marks around the clock face.
+.TP 8
+.B .child_\fIn\fP.cycle / .Mark.Cycle / .Hand.Cycle
+For a mark, the number of marks in set \fIn\fP.  For a hand, the
+number of ticks corresponding to one complete turn of the hand.
+.TP 8
+.B .child_\fIn\fP.outsideEnd / .Mark.OutsideEnd
+Outside end of marks in set \fIn\fP, as a radial distance.
+.TP 8
+.B .child_\fIn\fP.length / .Mark.Length
+Length of marks in set \fIn\fP; the marks extend from the outsideEnd
+position inward for this distance.
+.TP 8
+.B .child_\fIn\fP.phase / .Mark.Phase
+Phase of mark set \fIn\fP.  This specifies a rotation of the whole set of
+marks.  The default is 0, which specifies that a mark appear at the
+straight-up ("12-o'clock") position, with the other number-1 marks (if
+any) spaced evenly around the face.  If phase is nonzero, it specifies
+a rotation of the entire set of marks clockwise.  The value is the
+rotation, as a fraction of the distance from one mark to the next. For
+example, any integer value will have no visible effect (any desired
+effect corresponds to some value in [0..1]).  Experimentation is
+recommended.
+.TP 8
+.B .child_\fIn\fP.centerX / .Mark.CenterX
+.TP 8
+.B .child_\fIn\fP.centerY / .Mark.CenterY
+These specify where on the clock face the center of the circle formed
+by the marks is to be.  The X and Y coordinates are scaled so that the
+bounding square of the clock face is [-1..1] x [-1..1].  This allows
+for placing circles of marks centered at points other than the center
+of the clock face; this is useful primarily in conjunction with the
+corresponding options for hands.
+.TP 8
+.B .child_\fIn\fP.foreground / .Mark.Foreground
+Color used to draw a mark or hand.
+.TP 8
+.B .nChildren / .NChildren
+Number of hands and marks on the clock.
+.TP 8
+.B .child_\fIn\fP.class
+The class of the hand or mark, currently only "Hand" and "Mark" are
+supported.
+.TP 8
+.B .child_\fIn\fP.width / .Hand.Width
+The width of the hand.  For triangular hands, this is the width of the
+base; for rectangular hands, this is the width of the rectangle; and
+for circular hands, this is the diameter of the circle.  If the width
+of a triangular or rectangular outline hand is zero, the hand is drawn
+as a single line instead of the full shape.
+.TP 8
+.B .child_\fIn\fP.shape / .Hand.Shape
+The shape of the hand.  Hands can be triangular, rectangular, or
+circular; the allowed values are "triangle", "rectangle", "circle",
+"triangular", "rectangular", and "circular".  Illegal values produce a
+complaint and a default is used.
+.TP 8
+.B .child_\fIn\fP.render / .Hand.Render
+The rendition of the hand.  Hands can be drawn as outlines or as
+filled shapes; the allowed values are "outline", "fill", "outlined",
+and "filled".  Illegal values produce a complaint and a default is
+used.
+.TP 8
+.B .child_\fIn\fP.strokeWidth / .Hand.StrokeWidth
+The width of strokes used to draw the hand, when the hand is drawn in
+a way that uses strokes.  A value of 0 uses so-called "thin" lines,
+which are often faster.
+.TP 8
+.B .child_\fIn\fP.strokeWidthR / .Hand.StrokeWidthR
+If a non-zero floating point number is specified, the stroke width
+will always be the product of this number and the clock's outer radius
+(in x direction if it is an ellipsis).
+.TP 8
+.B .child_\fIn\fP.cap / .Hand.Cap
+The line cap style used when drawing hands. This produces no visual
+effect except when drawing triangular or rectangular hands of width 0.
+Legal values are "notlast", "butt", "round", "projecting",
+"capnotlast", "capbutt", "capround", and "capprojecting".
+.TP 8
+.B .child_\fIn\fP.join / .Hand.Join
+The line join style used when drawing hands.  Legal values are
+"miter", "round", "bevel", "joinmiter", joinround", and "joinbevel".
+.TP 8
+.B .child_\fIn\fP.cycle / .Hand.Cycle
+The number of seconds it takes for the hand to circle around the face
+once.  For example, a normal second hand will give 60, a normal minute
+hand 3600.  If this is small compared to the tickTime value, the hand
+will move by visually large amounts each tick; this may or may not be
+desirable.  The value may be floating-point.
+.TP 8
+.B .child_\fIn\fP.phase / .Hand.Phase
+An offset applied to the time of day before computing the hand
+position.  To determine the position of a hand, the following is
+computed:
+.sp
+.B ((now - tz - phase) % cycle) / cycle
+.sp
+where `now' is the current time of day (obtained with time(3)), tz is
+a correction factor for the timezone as found in the tm_gmtoff field
+of the structure returned by localtime(3)), phase is the value of the
+phase resource for the hand, and cycle is the value of the cycle
+resource for the hand.  The result is a number from 0 to 1, which is
+mapped into an angular position, with 0 being straight up, .25 being
+straight right, .5 being straight down, etc.
+.sp
+The simplest way to determine the desired phase value
+for a hand is to experiment.  It is usually obvious that the value
+should be a multiple of something like 3600; try various multiples
+until you get the desired hand position.
+.TP 8
+.B .child_\fIn\fP.color / .Hand.Foreground
+The color used for drawing the hand.  Hands are drawn opaquely in
+increasing numerical order.
+.TP 8
+.B .child_\fIn\fP.center.x / .Hand.Center.X
+.TP 8
+.B .child_\fIn\fP.center.y / .Hand.Center.Y
+These specify where on the clock face the pivot point of the hand is
+to be.  The X and Y coordinates are scaled so that the bounding square
+of the clock face is 1..1] x [-1..1].  This allows hands to rotate
+about points other than the center of the clock face, as with some
+watches.
+.TP 8
+.B .geometry / .Geometry
+Geometry specification, when none is given on the command line.  If no
+geometry spec can be found anywhere, the equivalent of 200x200+100+100
+is used.
+.TP 8
+.B .background / .Background
+Color used as a background for all drawing.
+.TP 8
+.B .name / .Name
+A string, which is stored as the window manager name for the window.
+If none is given, "xwatch" is used.
+.TP 8
+.B .iconName / .IconName
+A string, which is stored as the window manager icon name for the
+window.  If none is given, "xwatch" is used.
+.TP 8
+.B .railroad / .Railroad
+Enables or disables Swiss-railway-clock mode, as described under the
+-railroad command-line option. The value can be "true", "false",
+"yes", or "no".
+.TP 8
+.B .circular / .Circular
+If set, the clock will remain circular even if one tries to resize it
+to a non-circular ellipse.  This is the previous behavior.  The
+possible values are the same as for \fB.swiss/.Swiss\fP.
+.SH EXAMPLE RESOURCES
+The distributed application defaults files define three different
+looks for swisswatch.  Try them out by calling it as
+.sp 1
+swisswatch
+.sp 1
+swisswatch -name swissclock
+.sp 1
+swisswatch -name oclock
+.sp 1
+.SH COLORS
+If you would like your clock to be viewable in color, include the following 
+in the #ifdef COLOR section you read with xrdb:
+.sp 1
+*customization:                 -color
+.sp 1
+.br
+This will cause swisswatch to pick up the colors in the app-defaults color
+customization file:
+/usr/lib/X11/app-defaults/SwissWatch-color.
+.SH "SEE ALSO"
+X(1), X Toolkit documentation
+.SH COPYRIGHT
+Copyright 1989, Massachusetts Institute of Technology.
+.br
+See \fIX(1)\fP for a full statement of rights and permissions.
+.SH AUTHOR
+Simon Leinen, Ecole Polytechnique Federale de Lausanne
+.SH CREDITS
+Der Mouse <mouse@larry.McRCIM.McGill.EDU> wrote the mclock program
+that already featured most of the functionality: smooth movement of
+the minute hand and excessive configurability.  I basically
+reimplemented mclock as a Toolkit application.  This manpage also
+contains slightly adapted text from mclock.doc.
