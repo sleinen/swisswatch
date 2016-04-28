@@ -1,0 +1,36 @@
+##############################################################################
+# File Name:	Makefile.simple
+# Description:	Makefile for the imake-deprived
+# Author:	Logiciels X11 (x11@lia.di.epfl.ch)
+# Date Created:	17-Jan-93
+# RCS $Header$	
+# RCS $Log$	
+##############################################################################
+## Edit and uncomment this line if you don't have the X11 include
+## files under /usr/include/X11
+# INCLUDES = -I/usr/X11R5/include
+
+## Edit and uncomment this line if you don't have the X11 libraries
+## installed in the linker's standard search path
+# XLIBDIR = -L/usr/X11R5/lib
+
+## Desired optimization/debugging options for the compiler
+CDEBUGFLAGS = -O
+
+## Uncomment this line if you have an Xlib version that doesn't
+## support the SHAPE extension (X11R3 or earlier).  If your libraries
+## are really that old, the program probably won't compile anyway.
+DEFINES = -DSHAPE
+
+LOCAL_LIBRARIES = $(XLIBDIR) -lXt -lXmu -lXext -lX11
+CFLAGS = $(CDEBUGFLAGS) $(INCLUDES) $(DEFINES)
+SYS_LIBRARIES = -lm
+SRCS = swisswatch.c SwissWatch.c Hand.c Mark.c HandOrMark.c TableConvert.c
+OBJS = swisswatch.o SwissWatch.o Hand.o Mark.o HandOrMark.o TableConvert.o
+
+swisswatch: $(OBJS)
+	$(CC) $(CFLAGS) -o swisswatch $(OBJS) $(LOCAL_LIBRARIES) $(SYS_LIBRARIES)
+
+clean::
+	rm -f swisswatch
+	rm -f *.CKP *.ln *.BAK *.bak *.o core errs ,* *~ *.a .emacs_* tags TAGS make.log MakeOut "#"*

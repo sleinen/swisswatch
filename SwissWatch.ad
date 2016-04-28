@@ -1,0 +1,157 @@
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!! File Name:	  SwissWatch.ad
+!!! Description:  pre-X11R5 version of the app-defaults file
+!!! Author:	  Simon Leinen (simon@liasun6.epfl.ch)
+!!! Date Created: 12-Mar-92
+!!! RCS $Header$  
+!!! RCS $Log$	  
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+swisswatch*SwissWatch.child_4.foreground:		green
+swisswatch*SwissWatch.child_5.foreground:		green
+swisswatch*SwissWatch.child_6.foreground:		red
+swisswatch*SwissWatch.Mark.foreground:			green
+swisswatch*SwissWatch.Hand.foreground:			grey80
+!
+swissclock*SwissWatch.child_5.foreground:		red
+swissclock*SwissWatch.child_6.foreground:		red
+swissclock*SwissWatch.*.foreground:			black
+!
+oclock*Background:					grey
+oclock*SwissWatch.*.foreground:				yellow
+oclock*SwissWatch.child_1.foreground:			light blue
+
+*SwissWatch.TickTime:		1
+*SwissWatch.Background:		black
+*SwissWatch.nChildren:		3
+*SwissWatch.Hand.inner:		0
+*SwissWatch.Hand.outer:		.9
+*SwissWatch.width:		100
+*SwissWatch.height:		100
+
+swisswatch*Background:				black
+swisswatch*Foreground:				white
+swisswatch*SwissWatch.nChildren:		7
+swisswatch*SwissWatch.Hand.inner:		-.05
+swisswatch*SwissWatch.Hand.width:		0
+swisswatch*SwissWatch.*.cap:			round
+swisswatch*SwissWatch.Hand.shape:		rectangle
+swisswatch*SwissWatch.child_0.class:		Mark
+swisswatch*SwissWatch.child_0.cycle:		60
+swisswatch*SwissWatch.child_0.strokeWidthR:	0.01
+swisswatch*SwissWatch.child_0.inner:		0.79
+swisswatch*SwissWatch.child_0.outer:		0.8
+swisswatch*SwissWatch.child_1.class:		Mark
+swisswatch*SwissWatch.child_1.cycle:		12
+swisswatch*SwissWatch.child_1.strokeWidthR:	0.02
+swisswatch*SwissWatch.child_1.inner:		.71
+swisswatch*SwissWatch.child_1.outer:		.8
+swisswatch*SwissWatch.child_2.class:		Hand
+swisswatch*SwissWatch.child_2.cycle:		43200
+swisswatch*SwissWatch.child_2.outer:		.40
+swisswatch*SwissWatch.child_2.render:		outlined
+swisswatch*SwissWatch.child_2.strokeWidthR:	0.1
+swisswatch*SwissWatch.child_3.class:		Hand
+swisswatch*SwissWatch.child_3.cycle:		3600
+swisswatch*SwissWatch.child_3.outer:		.60
+swisswatch*SwissWatch.child_3.render:		outlined
+swisswatch*SwissWatch.child_3.strokeWidthR:	0.075
+swisswatch*SwissWatch.child_4.class:		Hand
+swisswatch*SwissWatch.child_4.cycle:		43200
+swisswatch*SwissWatch.child_4.outer:		.38
+swisswatch*SwissWatch.child_4.inner:		.30
+swisswatch*SwissWatch.child_4.render:		outlined
+swisswatch*SwissWatch.child_4.strokeWidthR:	0.05
+swisswatch*SwissWatch.child_5.class:		Hand
+swisswatch*SwissWatch.child_5.cycle:		3600
+swisswatch*SwissWatch.child_5.outer:		.58
+swisswatch*SwissWatch.child_5.inner:		.50
+swisswatch*SwissWatch.child_5.render:		outlined
+swisswatch*SwissWatch.child_5.strokeWidthR:	0.0375
+swisswatch*SwissWatch.child_6.class:		Hand
+swisswatch*SwissWatch.child_6.render:		filled
+swisswatch*SwissWatch.child_6.shape:		circle
+swisswatch*SwissWatch.child_6.cycle:		60
+swisswatch*SwissWatch.child_6.outer:		0.575
+swisswatch*SwissWatch.child_6.width:		0.15
+
+swissclock*Background:				snow1
+swissclock*Foreground:				black
+swissclock*SwissWatch.width:			300
+swissclock*SwissWatch.height:			300
+swissclock*SwissWatch.nChildren:		7
+swissclock*SwissWatch.*.StrokeWidth:		0
+swissclock*SwissWatch.*.render:			outlined
+swissclock*SwissWatch.*.width:			0
+swissclock*SwissWatch.Hand.inner:		-.18
+swissclock*SwissWatch.child_0.class:		Mark
+swissclock*SwissWatch.child_0.Cycle:		60
+swissclock*SwissWatch.child_0.Inner:		.90
+swissclock*SwissWatch.child_0.Outer:		.95
+swissclock*SwissWatch.child_0.StrokeWidthR:	.03
+swissclock*SwissWatch.child_1.class:		Mark
+swissclock*SwissWatch.child_1.Cycle:		12
+swissclock*SwissWatch.child_1.Inner:		.82
+swissclock*SwissWatch.child_1.Outer:		.95
+swissclock*SwissWatch.child_1.StrokeWidthR:	.03
+swissclock*SwissWatch.child_2.class:		Mark
+swissclock*SwissWatch.child_2.shape:		circle
+swissclock*SwissWatch.child_2.render:		outline
+swissclock*SwissWatch.child_2.outer:		0
+swissclock*SwissWatch.child_2.width:		1.99
+swissclock*SwissWatch.child_2.strokeWidthR:	.03
+swissclock*SwissWatch.child_2.cycle:		1
+swissclock*SwissWatch.child_3.class:		Hand
+swissclock*SwissWatch.child_3.outer:		.60
+swissclock*SwissWatch.child_3.shape:		arrow
+swissclock*SwissWatch.child_3.render:		filled
+swissclock*SwissWatch.child_3.width:		.10
+swissclock*SwissWatch.child_3.cycle:		43200
+swissclock*SwissWatch.child_4.class:		Hand
+swissclock*SwissWatch.child_4.outer:		.81
+swissclock*SwissWatch.child_4.shape:		arrow
+swissclock*SwissWatch.child_4.render:		filled
+swissclock*SwissWatch.child_4.width:		.08
+swissclock*SwissWatch.child_4.cycle:		3600
+swissclock*SwissWatch.child_5.class:		Hand
+swissclock*SwissWatch.child_5.strokeWidthR:	0.03
+swissclock*SwissWatch.child_5.inner:		-.26
+swissclock*SwissWatch.child_5.outer:		.78
+swissclock*SwissWatch.child_5.cycle:		60
+swissclock*SwissWatch.child_6.class:		Hand
+swissclock*SwissWatch.child_6.shape:		circle
+swissclock*SwissWatch.child_6.render:		filled
+swissclock*SwissWatch.child_6.outer:		.78
+swissclock*SwissWatch.child_6.width:		.20
+swissclock*SwissWatch.child_6.cycle:		60
+swissclock*SwissWatch.*.shape:			rectangle
+swissclock*SwissWatch.railroad:			true
+swissclock*SwissWatch.circular:			true
+
+oclock*SwissWatch.nChildren:			4
+oclock*SwissWatch.TickTime:			60
+oclock*SwissWatch.child_0.Class:		Mark
+oclock*SwissWatch.child_0.Cycle:		1
+oclock*SwissWatch.child_0.Shape:     		circle
+oclock*SwissWatch.child_0.Render:    		filled
+oclock*SwissWatch.child_0.Width:     		0.075
+oclock*SwissWatch.child_0.Inner:     		.825
+oclock*SwissWatch.child_0.Outer:     		.825
+oclock*SwissWatch.child_1.Class:		Mark
+oclock*SwissWatch.child_1.Cycle:		1
+oclock*SwissWatch.child_1.Inner:     		0
+oclock*SwissWatch.child_1.Outer:     		0
+oclock*SwissWatch.child_1.Width:     		1.9
+oclock*SwissWatch.child_1.Shape:     		circle
+oclock*SwissWatch.child_1.Render:    		outlined
+oclock*SwissWatch.child_1.Color:     		black
+oclock*SwissWatch.child_1.StrokeWidthR:		0.1
+oclock*SwissWatch.Hand.Shape:        		arrow
+oclock*SwissWatch.Hand.Render:       		filled
+oclock*SwissWatch.Hand.Width:        		0.09
+oclock*SwissWatch.child_2.Class:		Hand
+oclock*SwissWatch.child_2.Cycle:		43200
+oclock*SwissWatch.child_2.Outer:     		0.45
+oclock*SwissWatch.child_3.Class:		Hand
+oclock*SwissWatch.child_3.Outer:     		0.72
+oclock*SwissWatch.child_3.Cycle:		3600

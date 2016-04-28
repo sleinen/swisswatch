@@ -1,0 +1,17 @@
+#ifdef ContribRules
+ContribRules
+#endif
+DEFINES = ExtensionDefines
+SRCS = swisswatch.c SwissWatch.c Hand.c Mark.c HandOrMark.c TableConvert.c
+OBJS = swisswatch.o SwissWatch.o Hand.o Mark.o HandOrMark.o TableConvert.o
+DEPLIBS = $(DEPXTOOLLIB) $(DEPXMULIB) $(DEPEXTENSIONLIB) $(DEPXLIB)
+LOCAL_LIBRARIES = $(XTOOLLIB) $(XMULIB) $(EXTENSIONLIB) $(XLIB)
+SYS_LIBRARIES = -lm
+
+ComplexProgramTarget(swisswatch)
+#ifdef InstallAppDefaultsLong
+InstallAppDefaultsLong(SWatch,SwissWatch)
+InstallAppDefaultsLong(SWatch-co,SwissWatch-color)
+#else /* hmm, we seem to run under pre-R5 */
+InstallAppDefaults(SwissWatch)
+#endif

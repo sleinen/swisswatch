@@ -1,0 +1,15 @@
+#include "SwissWatch"
+
+swisswatch*SwissWatch.child_4.foreground:		green
+swisswatch*SwissWatch.child_5.foreground:		green
+swisswatch*SwissWatch.child_6.foreground:		red
+swisswatch*SwissWatch.Mark.foreground:			green
+swisswatch*SwissWatch.Hand.foreground:			grey80
+!
+swissclock*SwissWatch.child_5.foreground:		red
+swissclock*SwissWatch.child_6.foreground:		red
+swissclock*SwissWatch.*.foreground:			black
+!
+oclock*Background:					grey
+oclock*SwissWatch.*.foreground:				yellow
+oclock*SwissWatch.child_1.foreground:			light blue

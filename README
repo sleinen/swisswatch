@@ -1,0 +1,48 @@
+README: Swisswatch				 	-*- mode: text -*-
+
+Swisswatch is a reimplementation of der Mouse's mclock program using
+lightweight X Toolkit objects ("gadgets").  It relies heavily on
+resources for configuration, and can assume a wide range of looks.
+
+The application defaults files distributed with swisswatch currently
+support an oclock emulation, a Swiss railway clock emulation, and a
+fancy default appearance.  You are encouraged to play with the
+resources and create your personalized version... and send the results
+back to me so that I can integrate them into the distribution.
+
+Under X11R5, you can use the resource editor to interactively change
+colors and shapes of the graphical elements of the clock.
+
+INSTALLATION
+
+If you are running X11R5 with a properly configured imake, this should
+work:
+
+	% xmkmf -a
+	% make install install.man
+
+Under X11R4 with imake, use:
+
+	% xmkmf
+	% make depend
+	% make install install.man
+
+If you don't have imake (shame on you), edit `Makefile.simple'
+according to the comments in that file, and issue
+
+	% make -f Makefile.simple install install.man
+
+If you want to test swisswatch before installing, you have to set the
+environment variable XENVIRONMENT so that the program find the
+uninstalled resources:
+
+	% env XENVIRONMENT=SwissWatch.ad ./swisswatch
+
+Have fun,
+-- 
+Simon Leinen.		<simon@lia.di.epfl.ch>
+Laboratoire d'Intelligence Artificielle
+Ecole Polytechnique Federale de Lausanne
+MA-Ecublens
+CH-1015 Lausanne
+Tel.: +41-21-693-5277

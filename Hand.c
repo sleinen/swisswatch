@@ -1,11 +1,16 @@
 /*****************************************************************************
  * File Name:	 Hand.c
  * Description:	 Hand widget class -- implementation
- * Author:	 Simon Leinen (simon@liasun5)
+ * Author:	 Simon Leinen  <simon@switch.ch>
  * Date Created:  6-May-92
- * RCS $Header$	 
- * RCS $Log$	 
+ * RCS $Header: /home/leinen/X/src/swisswatch-0.06/RCS/Hand.c,v 1.1 1999/12/15 09:17:23 leinen Exp leinen $	 
+ * RCS $Log: Hand.c,v $
+ * RCS Revision 1.1  1999/12/15 09:17:23  leinen
+ * RCS Initial revision
+ * RCS	 
  ****************************************************************************/
+
+#define _XOPEN_SOURCE
 
 #include <X11/IntrinsicP.h>
 #include "HandP.h"
@@ -18,7 +23,7 @@ static void draw(Widget, Drawable, int, int);
 static void draw();
 #endif /* not NeedFunctionPrototypes */
 
-#if defined(sun) || defined(__sun__)
+#if (defined(sun) || defined(__sun__)) && !defined (SYSV)
 #define HAVE_SINCOS 1
 #endif
 
@@ -90,7 +95,7 @@ draw(w, d, width, height)
       if (cycle < 464)
 	{ ang = fmod(dnow-hw->hand_or_mark.phase,60.0);
 	  if (ang < 57.5)
-	    { ang = (ang * 2 * M_PI * 62) / 3600;
+	    { ang = (ang * 2 * M_PI * 62.6) / 3600;
 	    }
 #if 0
 	  else if (ang > 58.9)

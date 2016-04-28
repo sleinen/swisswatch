@@ -1,0 +1,34 @@
+Sun Jan 17 13:15:46 1993  Logiciels X11  (x11 at liasun6)
+
+	* Hand.c
+	(draw): removed junk after #endif
+
+	* README: added installation instructions
+
+	* HandOrMark.c
+	(get_hand_or_mark_gcs): when abusing XDrawLine to draw a filled
+	cirular shape, set GCCapStyle to CapRound
+
+	* Makefile.simple: new file
+
+	* SwissWatch.c
+	(tock): if tick_time is greater than 1, make sure that the ticks
+	occur exactly on the given multiple of seconds.
+
+Sat Jan 16 19:09:09 1993  Logiciels X11  (x11 at liasun6)
+
+	* Imakefile: don't link to -lXaw - we have our own widgets.
+
+	* HandOrMark.c
+	(get_hand_or_mark_gcs): use XDrawLine to draw circles
+
+Sat Jan 16 18:18:45 1993  Simon Leinen  (simon at liasun6)
+
+	* Swisswatch.ad, SWatch.ad, SWatch-co.ad: the second hands are now
+	always last in the list of children.  That way, it can be
+	eliminated by decrementing the "nChildren" resource.  When the
+	"tickTime" is increased to 60, the user gets a less
+	resource-intensive clock (proposed by Bill Sebok
+	<wls@astro.UMD.EDU>).
+
+	* swisswatch.man: added Amir Katz' fixes
