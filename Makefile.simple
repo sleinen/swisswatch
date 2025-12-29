@@ -25,8 +25,8 @@ DEFINES = -DSHAPE
 LOCAL_LIBRARIES = $(XLIBDIR) -lXt -lXmu -lXext -lX11
 CFLAGS = $(CDEBUGFLAGS) $(INCLUDES) $(DEFINES)
 SYS_LIBRARIES = -lm
-SRCS = swisswatch.c SwissWatch.c Hand.c Mark.c HandOrMark.c TableConvert.c
-OBJS = swisswatch.o SwissWatch.o Hand.o Mark.o HandOrMark.o TableConvert.o
+SRCS = swisswatch.c SwissW.c Hand.c Mark.c HandOrMark.c TableConvert.c
+OBJS = swisswatch.o SwissW.o Hand.o Mark.o HandOrMark.o TableConvert.o
 
 swisswatch: $(OBJS)
 	$(CC) $(CFLAGS) -o swisswatch $(OBJS) $(LOCAL_LIBRARIES) $(SYS_LIBRARIES)

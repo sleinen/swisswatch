@@ -31,19 +31,19 @@ all::
 # $XFree86: xc/config/cf/xf86site.def,v 3.186 2003/06/25 18:06:22 eich Exp $
 
 # ----------------------------------------------------------------------
-# platform-specific configuration parameters - edit darwin.cf to change
+# platform-specific configuration parameters - edit linux.cf to change
 
-# $XdotOrg: xc/config/cf/darwin.cf,v 1.7 2005/03/17 01:12:07 torrey Exp $
-# platform:  $XFree86: xc/config/cf/darwin.cf,v 1.50 2004/01/20 23:54:50 torrey Exp $
+# $XdotOrg: xc/config/cf/linux.cf,v 1.24 2005/03/06 01:05:00 branden Exp $
+# platform:  $Xorg: linux.cf,v 1.3 2000/08/17 19:41:47 cpqbld Exp $
 
-# operating system:  Darwin (14.5.0)
+# platform:  $XFree86: xc/config/cf/linux.cf,v 3.220 2003/12/30 22:38:33 tsi Exp $
 
-   PROJ_BUILD = xcodebuild
+# operating system:  Linux 6.8.0-85-generic x86_64 [ELF] (6.8.0)
+# libc:	(6.39.0)
+# binutils:	(242)
 
-   XPLIBDIR = /usr/lib
-   XPINCDIR = $(SERVERSRC)/hw/darwin/quartz/xpr
-
-# $XFree86: xc/config/cf/darwinLib.rules,v 1.8 2003/10/09 22:43:18 herrb Exp $
+# $Xorg: lnxLib.rules,v 1.3 2000/08/17 19:41:47 cpqbld Exp $
+# $XFree86: xc/config/cf/lnxLib.rules,v 3.52 2003/10/31 20:49:03 herrb Exp $
 
 # $XdotOrg: xc/config/cf/xorg.cf,v 1.44 2005/01/27 03:50:46 ajax Exp $
 
@@ -51,6 +51,8 @@ all::
 
 XORG_VERSION_CURRENT = (((7) * 10000000) + ((7) * 100000) + ((0) * 1000) + 0)
 RELEASE_VERSION = RELEASE-1
+
+AFB_DEFS = -DUSE_AFB
 
 DRIVERSDKDIR = $(USRLIBDIR)/Server
 DRIVERSDKMODULEDIR = $(USRLIBDIR)/Server/modules
@@ -73,6 +75,14 @@ XFREE86JAPANESEDOCDIR = $(DOCDIR)/Japanese
 
 # $XFree86: xc/config/cf/xf86.rules,v 3.34tsi Exp $
 
+   SELINUX_LDFLAGS =
+
+   SELINUX_INCLUDES = -I/usr/include/selinux
+
+   SELINUX_CFLAGS =  -DHAVE_SELINUX
+
+   SELINUX_LIBS = -lselinux
+
 # ----------------------------------------------------------------------
 # site-specific configuration parameters that go after
 # the platform-specific parameters - edit site.def to change
@@ -91,24 +101,28 @@ XFREE86JAPANESEDOCDIR = $(DOCDIR)/Japanese
 #
 # rules:  $XFree86: xc/config/cf/Imake.rules,v 3.128 2003/11/15 03:25:17 dawes Exp $
 
+.PHONY: all interfaces install install.man install.lib install.sdk 	depend includes cleandir
+
+ _NULLCMD_ = @ echo -n
+
 X_BYTE_ORDER = X_LITTLE_ENDIAN
 
 GLIDE2INCDIR =
 
-GLIDE3INCDIR =
+GLIDE3INCDIR = /usr/include/glide3
 
-GLIDE3LIBNAME =
+GLIDE3LIBNAME = glide3
 
-TKLIBNAME =
+TKLIBNAME = tk8.4
 
-TKLIBDIR =
+TKLIBDIR = /usr/lib
 
-TCLLIBNAME =
+TCLLIBNAME = tcl8.4
 
-TCLIBDIR =
+TCLIBDIR = /usr/lib
 
           PATHSEP = /
-            SHELL = /bin/sh
+            SHELL = /bin/sh -e
 
               TOP = .
       CURRENT_DIR = .
@@ -118,75 +132,85 @@ TCLIBDIR =
         MKDIRHIER = mkdir -p
           REVPATH = revpath
     EXPORTLISTGEN =
-             RMAN = RmanCmd
+             RMAN = /usr/bin/rman
      RMANBASENAME = rman
-      RMANOPTIONS = RmanOptions
+      RMANOPTIONS =
         CONFIGSRC = $(TOP)/config
          IMAKESRC = $(CONFIGSRC)/imake
         DEPENDSRC = $(CONFIGSRC)/util
 
-          INCROOT = /usr/local/include
-        USRLIBDIR = /usr/local/lib
+          INCROOT = /usr/include
+        USRLIBDIR = /usr/lib
            VARDIR = /var
         VARLIBDIR = $(VARDIR)/lib
   SYSTEMUSRLIBDIR = /usr/lib
   SYSTEMUSRINCDIR = /usr/include
-         SHLIBDIR = /usr/local/lib
+         SHLIBDIR = /usr/lib
        LINTLIBDIR = $(USRLIBDIR)/lint
-          MANPATH = /usr/local/man
+          MANPATH = /usr/share/man
     MANSOURCEPATH = $(MANPATH)/man
-           MANDIR = $(MANSOURCEPATH)$(MANSUFFIX)
-        LIBMANDIR = $(MANSOURCEPATH)$(LIBMANSUFFIX)
-       FILEMANDIR = $(MANSOURCEPATH)$(FILEMANSUFFIX)
-       MISCMANDIR = $(MANSOURCEPATH)$(MISCMANSUFFIX)
-     DRIVERMANDIR = $(MANSOURCEPATH)$(DRIVERMANSUFFIX)
+           MANDIR = $(MANSOURCEPATH)$(MANSECT)
+    SYSCALLMANDIR = $(MANSOURCEPATH)$(SYSCALLMANSECT)
+        LIBMANDIR = $(MANSOURCEPATH)$(LIBMANSECT)
+     DRIVERMANDIR = $(MANSOURCEPATH)4
+       FILEMANDIR = $(MANSOURCEPATH)$(FILEMANSECT)
+       GAMEMANDIR = $(MANSOURCEPATH)$(GAMEMANSECT)
+       MISCMANDIR = $(MANSOURCEPATH)7
+        ADMMANDIR = $(MANSOURCEPATH)$(ADMMANSECT)
+	  ICONDIR = "/usr/share/icons"
+      XCURSORPATH = "~/.icons:/usr/share/icons:/usr/share/pixmaps"
+     DRIVERMANDIR = $(MANSOURCEPATH)4
      LOGDIRECTORY = $(VARDIR)/log
 
-               AR = ar clq
+        VARRUNDIR = $(VARDIR)/run
+
+         VARDBDIR = $(VARDIR)/lib
+
+               AR = ar cq
 
 # Nice try but useless: make will inherit BOOTSTRAPCFLAGS
 # from  top Makefile
   BOOTSTRAPCFLAGS =
 
-               CC = /usr/bin/cc
-               AS = as
+               CC = gcc
+               AS = gcc -c -x assembler
 
 .SUFFIXES: .cc
 
-              CXX = /usr/bin/c++
+              CXX = c++
 
           CXXFILT = c++filt
 
            CXXLIB = -lstdc++
 
-    CXXDEBUGFLAGS = -Os
+    CXXDEBUGFLAGS = -g -O2 -fno-strict-aliasing
 CXXDEPENDINCLUDES =
  CXXEXTRA_DEFINES =
 CXXEXTRA_INCLUDES =
-   CXXSTD_DEFINES = -D__x86_64__ -D__DARWIN__                                 -DNO_ALLOCA -DCSRG_BASED  $(CXXPROJECT_DEFINES)
+   CXXSTD_DEFINES = -Dlinux -D__amd64__ -D_POSIX_C_SOURCE=199309L 				-D_POSIX_SOURCE -D_XOPEN_SOURCE 				-D_BSD_SOURCE -D_SVID_SOURCE                                 -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 				  				 $(CXXPROJECT_DEFINES)
        CXXOPTIONS =
       CXXINCLUDES = $(INCLUDES) $(TOP_INCLUDES) $(CXXEXTRA_INCLUDES)
        CXXDEFINES = $(CXXINCLUDES) $(CXXSTD_DEFINES) $(THREADS_CXXDEFINES) $(DEFINES) $(CXXEXTRA_DEFINES)
          CXXFLAGS = $(CXXDEBUGFLAGS) $(CXXOPTIONS) $(THREADS_CXXFLAGS) $(CXXDEFINES)
 
          COMPRESS = compress
-          GZIPCMD = gzip
+          GZIPCMD = gzip -n
 
-              CPP = /usr/bin/cpp $(STD_CPP_DEFINES)
-           RAWCPP = /usr/bin/cpp -undef $(STD_CPP_OPTIONS)
-    PREPROCESSCMD = /usr/bin/cc -E $(STD_CPP_DEFINES)
+              CPP = cpp $(STD_CPP_DEFINES)
+           RAWCPP = cpp -undef $(STD_CPP_OPTIONS)
+    PREPROCESSCMD = gcc -E $(STD_CPP_DEFINES)
 
           INSTALL = install
      INSTALLFLAGS = -c
 
-               LD = ld
+               LD = gcc -nostdlib
 
               LEX = flex -l
                M4 = m4
           M4FLAGS =
-           LEXLIB = -ll
-             YACC = yacc
-           CCYACC = yacc
+           LEXLIB = -lfl
+             YACC = bison -y
+           CCYACC = bison -y
 
              LINT = lint
 
@@ -205,15 +229,30 @@ CXXEXTRA_INCLUDES =
              PERL = perl
          PERLOPTS =
      PERLENVSETUP = env LC_ALL=C
-        MANSUFFIX = 1
-     LIBMANSUFFIX = 3
-    FILEMANSUFFIX = 5
-    MISCMANSUFFIX = 7
-  DRIVERMANSUFFIX = 4
+
+          MANSECT = 1
+   SYSCALLMANSECT = 2
+       LIBMANSECT = 3
+    DRIVERMANSECT = 4
+      FILEMANSECT = 5
+      GAMEMANSECT = 6
+      MISCMANSECT = 7
+       ADMMANSECT = 8
+       MANSRCSECT = s
+       MANNEWSECT = n
+ PROJECTMANSUFFIX = x
+        MANSUFFIX = $(MANSECT)$(PROJECTMANSUFFIX)
+ SYSCALLMANSUFFIX = $(SYSCALLMANSECT)$(PROJECTMANSUFFIX)
+     LIBMANSUFFIX = $(LIBMANSECT)$(PROJECTMANSUFFIX)
+  DRIVERMANSUFFIX = 4x
+    FILEMANSUFFIX = $(FILEMANSECT)$(PROJECTMANSUFFIX)
+    GAMEMANSUFFIX = $(GAMEMANSECT)$(PROJECTMANSUFFIX)
+    MISCMANSUFFIX = 7x
+     ADMMANSUFFIX = $(ADMMANSECT)$(PROJECTMANSUFFIX)
    ADMINMANSUFFIX = 8
      MANSRCSUFFIX = man
      MANNEWSUFFIX = _man
-          MANDEFS = -D__apploaddir__=$(XAPPLOADDIR) -D__appmansuffix__=$(MANSUFFIX) -D__filemansuffix__=$(FILEMANSUFFIX) -D__libmansuffix__=$(LIBMANSUFFIX) -D__miscmansuffix__=$(MISCMANSUFFIX) -D__drivermansuffix__=$(DRIVERMANSUFFIX) -D__adminmansuffix__=$(ADMINMANSUFFIX) -D__projectroot__=$(PROJECTROOT) -D__xconfigfile__=$(XCONFIGFILE) -D__xconfigdir__=$(XCONFIGDIR) -D__xlogfile__=$(XLOGFILE) -D__xservername__=$(XSERVERNAME) $(XORGMANDEFS) $(VENDORMANDEFS)
+          MANDEFS = -D__apploaddir__=$(XAPPLOADDIR) -D__filemansuffix__=$(FILEMANSECT)$(PROJECTMANSUFFIX) -D__osfilemansuffix__=$(FILEMANSECT) -D__libmansuffix__=$(LIBMANSECT)$(PROJECTMANSUFFIX) -D__oslibmansuffix__=$(LIBMANSECT) -D__mansuffix__=$(MANSECT)$(PROJECTMANSUFFIX) -D__osmansuffix__=$(MANSECT) -D__syscallmansuffix__=$(SYSCALLMANSECT)$(PROJECTMANSUFFIX) -D__ossysmansuffix__=$(SYSCALLMANSECT) -D__gamemansuffix__=$(GAMEMANSECT)$(PROJECTMANSUFFIX) -D__osgamemansuffix__=$(GAMEMANSECT) -D__miscmansuffix__=$(MISCMANSECT)$(PROJECTMANSUFFIX) -D__osmiscmansuffix__=$(MISCMANSECT) -D__admmansuffix__=$(ADMMANSECT)$(PROJECTMANSUFFIX) -D__osadmmansuffix__=$(ADMMANSECT) -D__miscmansuffix__=$(MISCMANSECT)$(PROJECTMANSUFFIX) -D__osmiscmansuffix__=$(MISCMANSECT) -D__drivermansuffix__=$(DRIVERMANSECT)$(PROJECTMANSUFFIX) -D__osdrivermansuffix__=$(DRIVERMANSECT) -D__adminmansuffix__=$(ADMINMANSUFFIX) -D__projectroot__=$(PROJECTROOT) -D__xconfigfile__=$(XCONFIGFILE) -D__xconfigdir__=$(XCONFIGDIR) -D__xlogfile__=$(XLOGFILE) -D__xservername__=$(XSERVERNAME) -D__appmansuffix__=$(MANSECT)$(PROJECTMANSUFFIX) $(XORGMANDEFS) $(VENDORMANDEFS)
 
    COMPRESSMANCMD = gzip -n
 
@@ -228,25 +267,28 @@ CXXEXTRA_INCLUDES =
               COL = col
          COLFLAGS = -b
 
-            MODCC = /usr/bin/cc
+            MODCC = gcc
 
-           MODCPP = /usr/bin/cpp
+           MODCPP = cpp
         MODCFLAGS = $(CFLAGS)
-            MODAS = as
+            MODAS = gcc -c -x assembler
        MODASFLAGS =
 
-            MODLD = ld
+            MODLD = gcc -nostdlib
 
        MODLDFLAGS =
-MODLDCOMBINEFLAGS = -X -r
-            MODAR = ar clq
+MODLDCOMBINEFLAGS = -r
+            MODAR = ar cq
 
         MODRANLIB = ranlib
 
+            DVIPS = dvips
+            LATEX = latex
+
      STD_INCLUDES =
-  STD_CPP_OPTIONS = -traditional -D__GNUC__
-  STD_CPP_DEFINES = -traditional -D__GNUC__ -traditional -D__GNUC__ -D__x86_64__ -D__DARWIN__                                 -DNO_ALLOCA -DCSRG_BASED  $(PROJECT_DEFINES)
-      STD_DEFINES = -D__x86_64__ -D__DARWIN__                                 -DNO_ALLOCA -DCSRG_BASED  $(PROJECT_DEFINES)
+  STD_CPP_OPTIONS = -traditional
+  STD_CPP_DEFINES = -traditional -Dlinux -D__amd64__ -D_POSIX_C_SOURCE=199309L 				-D_POSIX_SOURCE -D_XOPEN_SOURCE 				-D_BSD_SOURCE -D_SVID_SOURCE                                 -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 				  				 $(PROJECT_DEFINES)
+      STD_DEFINES = -Dlinux -D__amd64__ -D_POSIX_C_SOURCE=199309L 				-D_POSIX_SOURCE -D_XOPEN_SOURCE 				-D_BSD_SOURCE -D_SVID_SOURCE                                 -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 				  				 $(PROJECT_DEFINES)
  EXTRA_LOAD_FLAGS =
   EXTRA_LDOPTIONS =
   EXTRA_LIBRARIES =
@@ -257,16 +299,16 @@ MODLDCOMBINEFLAGS = -X -r
     SHAREDCODEDEF =
          SHLIBDEF =
 
-     SHLIBLDFLAGS = -dynamiclib $(SHLIBGLOBALSFLAGS)
+     SHLIBLDFLAGS = -shared $(SHLIBGLOBALSFLAGS)
 
          NOSTDLIB = -nostdlib
      POSTNOSTDLIB = -Wl,-Bstatic -lgcc -Wl,-Bdynamic
 
-         PICFLAGS = -dynamic
+         PICFLAGS = -fPIC
 
-      CXXPICFLAGS = -dynamic
+      CXXPICFLAGS = -fPIC
 
-    PROTO_DEFINES =
+    PROTO_DEFINES = -DFUNCPROTO=15 -DNARROWPROTO
 
      INSTPGMFLAGS =
 
@@ -278,16 +320,16 @@ MODLDCOMBINEFLAGS = -X -r
      INSTDATFLAGS = -m 0444
     INSTKMEMFLAGS = -m 4711
 
-      PROJECTROOT = /usr/local
+      PROJECTROOT = /usr
 
-      CDEBUGFLAGS = -Os
-        CCOPTIONS = -Wall -Wpointer-arith -no-cpp-precomp
+      CDEBUGFLAGS = -g -O2 -fno-strict-aliasing
+        CCOPTIONS =
 
       ALLINCLUDES = $(INCLUDES) $(EXTRA_INCLUDES) $(TOP_INCLUDES) $(INSTALLED_INCLUDES) $(STD_INCLUDES)
        ALLDEFINES = $(ALLINCLUDES) $(STD_DEFINES) $(PROTO_DEFINES) $(THREADS_DEFINES) $(MODULE_DEFINES) $(DEFINES) $(EXTRA_DEFINES)
            CFLAGS = $(CDEBUGFLAGS) $(CCOPTIONS) $(THREADS_CFLAGS) $(MODULE_CFLAGS) $(ALLDEFINES)
         LINTFLAGS = $(LINTOPTS) -DLINT $(ALLDEFINES) $(DEPEND_DEFINES)
-         LDPRELIB = -L$(USRLIBDIR) $(INSTALLED_LIBS)
+         LDPRELIB =  $(INSTALLED_LIBS)
         LDPOSTLIB =
         LDOPTIONS = $(CDEBUGFLAGS) $(CCOPTIONS)  $(EXTRA_LDOPTIONS) $(THREADS_LDFLAGS) $(LOCAL_LDFLAGS) $(LDPRELIBS)
      CXXLDOPTIONS = $(CXXDEBUGFLAGS) $(CXXOPTIONS) $(EXTRA_LDOPTIONS) $(THREADS_CXXLDFLAGS) $(LOCAL_LDFLAGS) $(LDPRELIBS)
@@ -299,21 +341,21 @@ MODLDCOMBINEFLAGS = -X -r
           CXXLINK = $(CXX)
 
      LDSTRIPFLAGS = -x
-   LDCOMBINEFLAGS = -X -r
+   LDCOMBINEFLAGS = -r
       DEPENDFLAGS =
    DEPEND_DEFINES =
 
 # Not sure this belongs here
-         TKLIBDIR =
-         TKINCDIR =
-        TKLIBNAME =
+         TKLIBDIR = /usr/lib
+         TKINCDIR = /usr/include
+        TKLIBNAME = tk8.4
         TKLIBRARY = -L$(TKLIBDIR) -l$(TKLIBNAME)
-        TCLLIBDIR =
-        TCLINCDIR =
-       TCLLIBNAME =
+        TCLLIBDIR = /usr/lib
+        TCLINCDIR = /usr/include
+       TCLLIBNAME = tcl8.4
        TCLLIBRARY = -L$(TCLLIBDIR) -l$(TCLLIBNAME)
 
-        MACROFILE = darwin.cf
+        MACROFILE = linux.cf
            RM_CMD = $(RM)
 
     IMAKE_DEFINES =
@@ -349,7 +391,7 @@ FCHOWN_DEFINES = -DHAS_FCHOWN
 # X Window System make variables; these need to be coordinated with rules
 
              XTOP = $(TOP)
-           BINDIR = /usr/local/bin
+           BINDIR = /usr/bin
      BUILDINCROOT = $(TOP)/exports
       BUILDINCDIR = $(BUILDINCROOT)/include
       BUILDINCTOP = ../..
@@ -366,14 +408,14 @@ FCHOWN_DEFINES = -DHAS_FCHOWN
      XBUILDBINDIR = $(XBUILDINCROOT)/bin
            INCDIR = $(INCROOT)
            ADMDIR = /usr/adm
-           LIBDIR = /usr/local/lib/X11
-         SHAREDIR = /usr/local/share/X11
-       LIBEXECDIR = /usr/local/libexec
+           LIBDIR = /usr/lib/X11
+         SHAREDIR = /usr/share/X11
+       LIBEXECDIR = /usr/libexec
         MODULEDIR = $(USRLIBDIR)/modules
-   TOP_X_INCLUDES = -I/opt/X11/include
+   TOP_X_INCLUDES =
           XBINDIR = $(PROJECTROOT)/bin
 
-       INSTSRCDIR = /usr/local/src
+       INSTSRCDIR = /usr/src
 
         ETCX11DIR = /etc/X11
 
@@ -383,8 +425,8 @@ FCHOWN_DEFINES = -DHAS_FCHOWN
        DOCHTMLDIR = $(DOCDIR)/html
          DOCPSDIR = $(DOCDIR)/PostScript
         DOCPDFDIR = $(DOCDIR)/PDF
-          FONTDIR = /opt/X11/share/fonts
-      FONTROOTDIR = /opt/X11/share/fonts
+          FONTDIR = ${datarootdir}/fonts/X11
+      FONTROOTDIR = ${datarootdir}/fonts/X11
      ENCODINGSDIR = ${FONTROOTDIR}/encodings
          XINITDIR = $(LIBDIR)/xinit
            XDMDIR = $(LIBDIR)/xdm
@@ -396,7 +438,7 @@ FCHOWN_DEFINES = -DHAS_FCHOWN
       LBXPROXYDIR = $(LIBDIR)/lbxproxy
   PROXYMANAGERDIR = $(LIBDIR)/proxymngr
         XPRINTDIR = $(LIBDIR)/xserver
-      XAPPLOADDIR = $(LIBDIR)/app-defaults
+      XAPPLOADDIR = /etc/X11/app-defaults
        FONTCFLAGS = -t
 
      INSTAPPFLAGS = $(INSTDATFLAGS)
@@ -441,8 +483,8 @@ FCHOWN_DEFINES = -DHAS_FCHOWN
         PSWRAPSRC = $(XTOP)/config/pswrap
      TRANSCOMMSRC = $(LIBSRC)/xtrans
    TRANS_INCLUDES = -I$(TRANSCOMMSRC)
- CONNECTION_FLAGS = -DTCPCONN -DUNIXCONN  $(STICKY_DEFINES) $(FCHOWN_DEFINES) -DIPv6
-XTRANS_FAILDEFINES =
+ CONNECTION_FLAGS = -DUNIXCONN -DTCPCONN $(STICKY_DEFINES) $(FCHOWN_DEFINES) -DIPv6
+XTRANS_FAILDEFINES = -DFAIL_HARD
 
     VENDORMANNAME = X.Org
  VENDORMANVERSION = `echo 7 7 0 | sed -e 's/ /./g' -e 's/^/Version\\\ /'`
@@ -464,9 +506,10 @@ VENDORSUPPORTDEFS = -D__VENDORDWEBSUPPORT__='"$(VENDORWEBSUPPORT)"'
      XSERVERNAME = Xorg
 
        XENVLIBDIR = $(USRLIBDIR)
-   CLIENTENVSETUP = DYLD_LIBRARY_PATH=$(XENVLIBDIR) XLOCALEDIR=$(BUILDLIBDIR)/locale
+   CLIENTENVSETUP = LD_LIBRARY_PATH=$(XENVLIBDIR) XLOCALEDIR=$(BUILDLIBDIR)/locale
 
-# $XFree86: xc/config/cf/darwinLib.tmpl,v 1.19 2003/11/04 00:24:36 torrey Exp $
+# $Xorg: lnxLib.tmpl,v 1.3 2000/08/17 19:41:47 cpqbld Exp $
+# $XFree86: xc/config/cf/lnxLib.tmpl,v 3.19 2003/10/15 22:47:48 herrb Exp $
 
           XLIBSRC = $(LIBSRC)/X11
 
@@ -519,14 +562,16 @@ LINTXXF86VM = $(LINTLIBDIR)/llib-lXxf86vm.ln
 
     XXF86DGALIBSRC = $(LIBSRC)/Xxf86dga
 
-DEPXXF86DGALIB = $(USRLIBDIR)/libXxf86dga.a
+SOXXF86DGAREV = 1.0
+DEPXXF86DGALIB =
 XXF86DGALIB =  -lXxf86dga
 
 LINTXXF86DGA = $(LINTLIBDIR)/llib-lXxf86dga.ln
 
     XXF86RUSHLIBSRC = $(LIBSRC)/Xxf86rush
 
-DEPXXF86RUSHLIB = $(USRLIBDIR)/libXxf86rush.a
+SOXXF86RUSHREV = 1.0
+DEPXXF86RUSHLIB =
 XXF86RUSHLIB =  -lXxf86rush
 
 LINTXXF86RUSH = $(LINTLIBDIR)/llib-lXxf86rush.ln
@@ -565,7 +610,8 @@ LINTXRES = $(LINTLIBDIR)/llib-lXRes.ln
 
     DMXLIBSRC = $(LIBSRC)/dmx
 
-DEPDMXLIB = $(USRLIBDIR)/libdmx.a
+SODMXREV = 1.0
+DEPDMXLIB =
 DMXLIB =  -ldmx
 
 LINTDMX = $(LINTLIBDIR)/llib-ldmx.ln
@@ -614,13 +660,13 @@ GLWLIB =  -lGLw
 
 LINTGLW = $(LINTLIBDIR)/llib-lGLw.ln
 
-    XRENDERLIBSRC = $(LIBSRC)/Xrender
-
-SOXRENDERREV = 1.2.2
+XRENDERDIR = /usr
+XRENDERLIBDIR = /usr/lib
+XRENDERINCDIR = /usr/include
+XRENDERLIB = -L$(XRENDERLIBDIR) -lXrender
 DEPXRENDERLIB =
-XRENDERLIB =  -lXrender
 
-LINTXRENDER = $(LINTLIBDIR)/llib-lXrender.ln
+XRENDERINCLUDES = -I$(XRENDERINCDIR)
 
     XRANDRLIBSRC = $(LIBSRC)/Xrandr
 
@@ -662,18 +708,16 @@ XEVIELIB =  -lXevie
 
 LINTXEVIE = $(LINTLIBDIR)/llib-lXevie.ln
 
-   XCURSORLIBSRC = $(LIBSRC)/Xcursor
+XCURSORDIR = /usr
+XCURSORLIBDIR = /usr/lib
+XCURSORINCDIR = /usr/include
+XCURSORLIB = -L$(XCURSORLIBDIR) -lXcursor
 
-SOXCURSORREV = 1.0.2
-DEPXCURSORLIB =
-XCURSORLIB =  -lXcursor
-
-LINTXCURSOR = $(LINTLIBDIR)/llib-lXcursor.ln
+XCURSORINCLUDES=-I$(XCURSORINCDIR) $(XRENDERINCLUDES)
 
    APPLEWMLIBSRC = $(LIBSRC)/apple
 
-SOAPPLEWMREV = 1.0
-DEPAPPLEWMLIB =
+DEPAPPLEWMLIB = $(USRLIBDIR)/libAppleWM.a
 APPLEWMLIB =  -lAppleWM
 
 LINTAPPLEWM = $(LINTLIBDIR)/llib-lAppleWM.ln
@@ -687,8 +731,7 @@ LINTWINDOWSWM = $(LINTLIBDIR)/llib-lWindowsWM.ln
 
     XFONTCACHELIBSRC = $(LIBSRC)/Xfontcache
 
-SOXFONTCACHEREV = 1.2
-DEPXFONTCACHELIB =
+DEPXFONTCACHELIB = $(USRLIBDIR)/libXfontcache.a
 XFONTCACHELIB =  -lXfontcache
 
 LINTXFONTCACHE = $(LINTLIBDIR)/llib-lXfontcache.ln
@@ -727,8 +770,7 @@ LINTXMUU = $(LINTLIBDIR)/llib-lXmuu.ln
 
        OLDXLIBSRC = $(LIBSRC)/oldX
 
-SOOLDXREV = 6.0
-DEPOLDXLIB =
+DEPOLDXLIB = $(USRLIBDIR)/liboldX.a
 OLDXLIB =  -loldX
 
 LINTOLDX = $(LINTLIBDIR)/llib-loldX.ln
@@ -840,14 +882,12 @@ LINTFS = $(LINTLIBDIR)/llib-lFS.ln
 
          FONTLIBSRC = $(LIBSRC)/font
 
-SOFONTREV = 1.5
-DEPFONTLIB =
+DEPFONTLIB = $(USRLIBDIR)/libXfont.a
 FONTLIB = -L$(FREETYPELIBDIR) -L$(FONTLIBSRC)  -lXfont
 
 LINTXFONT = $(LINTLIBDIR)/llib-lXfont.ln
 #
-SOFONTREV = 1.5
-DEPXFONTLIB =
+DEPXFONTLIB = $(USRLIBDIR)/libXfont.a
 XFONTLIB =  -lXfont
 
 LINTXFONT = $(LINTLIBDIR)/llib-lXfont.ln
@@ -863,8 +903,7 @@ LINTFONTSTUB = $(LINTLIBDIR)/llib-lfntstubs.ln
 
          FONTENCLIBSRC = $(LIBSRC)/fontenc
 
-SOFONTENCREV = 1.0
-DEPXFONTENCLIB =
+DEPXFONTENCLIB = $(USRLIBDIR)/libfontenc.a
 XFONTENCLIB =  -lfontenc
 
 LINTXFONTENC = $(LINTLIBDIR)/llib-lfontenc.ln
@@ -877,17 +916,13 @@ XPMLIB =  -lXpm
 
 LINTXPM = $(LINTLIBDIR)/llib-lXpm.ln
 
-          FREETYPE2LIBSRC = $(LIBSRC)/freetype2
+FREETYPE2DIR = /usr
+FREETYPE2LIBDIR = /usr/lib
+FREETYPE2INCDIR = /usr/include
 
-SOFREETYPE2REV = 6.3.8
-DEPFREETYPE2LIB =
-FREETYPE2LIB =  -lfreetype
+FREETYPE2LIB = -lfreetype
 
-LINTFREETYPE2 = $(LINTLIBDIR)/llib-lfreetype.ln
-
-FREETYPE2INCDIR=$(INCDIR)
-
-FREETYPE2INCLUDES = -I$(FREETYPE2INCDIR) -I$(FREETYPE2INCDIR)/freetype2 -I$(FREETYPE2INCDIR)/freetype2/config
+FREETYPE2INCLUDES = -I$(FREETYPE2INCDIR)/freetype2 -I$(FREETYPE2INCDIR)/freetype2/config
 
 FREETYPE2DEFINES = -DFREETYPE2
 
@@ -899,42 +934,35 @@ EXPATLIB =  -lexpat
 
 LINTEXPAT = $(LINTLIBDIR)/llib-lexpat.ln
 
-EXPATINCLUDES=$(TOP_X_INCLUDES)
-EXPATDEFINES=-DEXPAT
+EXPATDIR = /usr
+EXPATLIBDIR = /usr/lib
+EXPATINCDIR = /usr/include
 
-          XFT1LIBSRC = $(LIBSRC)/Xft1
+EXPATINCLUDES =
 
-SOXFT1REV = 1.1
-DEPXFT1LIB =
-XFT1LIB =  -lXft
+EXPATLIB = -lexpat
 
-LINTXFT1 = $(LINTLIBDIR)/llib-lXft.ln
+EXPATDEFINES = -DEXPAT
 
-          XFTLIBSRC = $(LIBSRC)/Xft
+XFTDIR = /usr
+XFTLIBDIR = /usr/lib
+XFTINCDIR = /usr/include
+XFTLIB = -L$(XFTLIBDIR) -lXft
 
-SOXFTREV = 2.1.2
-DEPXFTLIB =
-XFTLIB =  -lXft
+XFTINCLUDES= -I$(XFTINCDIR) $(FONTCONFIGINCLUDES) $(FREETYPE2INCLUDES) $(XRENDERINCLUDES)
 
-LINTXFT = $(LINTLIBDIR)/llib-lXft.ln
+FONTCONFIGDIR = /usr
+FONTCONFIGLIBDIR = /usr/lib
+FONTCONFIGINCDIR = /usr/include
+FONTCONFIGBINDIR = /usr/bin
 
-          FONTCONFIGLIBSRC = $(LIBSRC)/fontconfig
+FONTCONFIGLIB = -lfontconfig
 
-SOFONTCONFIGREV = 1.0.4
-DEPFONTCONFIGLIB =
-FONTCONFIGLIB =  -lfontconfig
+FONTCONFIGINCLUDES =
 
-LINTFONTCONFIG = $(LINTLIBDIR)/llib-lfontconfig.ln
-
-FONTCONFIGINCDIR=$(INCDIR)
-
-FONTCONFIGINCLUDES = -I$(FONTCONFIGINCDIR)
-
-FCCACHE = $(BINDIR)/fc-cache
+FCCACHE = $(FONTCONFIGBINDIR)/fc-cache
 
 FONTCONFIGDEFINES = -DFONTCONFIG
-
-XFTINCLUDES=$(FONTCONFIGINCLUDES) $(FREETYPE2INCLUDES)
 
 LIBPNGINCDIR = /usr/include
 
@@ -991,10 +1019,6 @@ LINTXTRAP = $(LINTLIBDIR)/llib-lXTrap.ln
          DEPLIBS9 = $(DEPLIBS)
          DEPLIBS10 = $(DEPLIBS)
 
-      FT2PRELOADPATTERN = libfreetype.so.?
-
-       FCPRELOADPATTERN = libfontconfig.so.?
-
       XFTPRELOADPATTERN = libXft.so.?
   XRENDERPRELOADPATTERN = libXrender.so.?
     XFONTPRELOADPATTERN = libXfont*.so.?
@@ -1005,9 +1029,9 @@ XMULIB = $(XMULIBONLY) $(XTOOLLIB) $(XLIB)
         CONFIGDIR = $(LIBDIR)/config
 
     USRLIBDIRPATH = $(USRLIBDIR)
-        LDPRELIBS = -L$(USRLIBDIR)  $(INSTALLED_LIBS)
+        LDPRELIBS =   $(INSTALLED_LIBS)
        LDPOSTLIBS =
-     TOP_INCLUDES = -I$(INCROOT) $(TOP_X_INCLUDES)
+     TOP_INCLUDES =  $(TOP_X_INCLUDES)
   PROJECT_DEFINES =
    VENDOR_DEFINES = -DXVENDORNAME='"$(VENDORNAME)"' -DXVENDORNAMESHORT='"$(VENDORNAMESHORT)"'
 
@@ -1016,7 +1040,7 @@ CXXPROJECT_DEFINES =
 # ----------------------------------------------------------------------
 # start of Imakefile
 
-DEFINES =  -DMITMISC -DXTEST -DXTRAP 	-DXSYNC -DXCMISC -DXRECORD 	-DMITSHM -DBIGREQS  	 -DDBE  -DEVI 	-DSCREENSAVER -DXV -DXVMC 	-DGLXEXT -DGLX_DIRECT_RENDERING -DGLX_USE_APPLEGL -fno-common           -DRES
+DEFINES =  -DMITMISC -DXTEST -DXTRAP 	-DXSYNC -DXCMISC -DXRECORD 	-DMITSHM -DBIGREQS -DXF86VIDMODE 	-DXF86MISC -DDBE -DDPMSExtension -DEVI 	-DSCREENSAVER -DXV -DXVMC 	-DGLXEXT -DXF86DRI -DGLX_DIRECT_RENDERING -DGLX_USE_DLOPEN -DGLX_USE_MESA -D__GLX_ALIGN64 -DFONTCACHE          -DRES
 SRCS = swisswatch.c SwissW.c Hand.c Mark.c HandOrMark.c TableConvert.c
 OBJS = swisswatch.o SwissW.o Hand.o Mark.o HandOrMark.o TableConvert.o
 DEPLIBS = $(DEPXTOOLLIB) $(DEPXMULIB) $(DEPEXTENSIONLIB) $(DEPXLIB)
@@ -1079,43 +1103,6 @@ lint1:
 cleandir::
 	$(RM) swisswatch
 
-install::
-	@for flag in ${MAKEFLAGS} ''; do \
-	  case "$$flag" in *=*) ;; --*) ;; *[i]*) set +e;; esac; done; \
-	if [ -h $(DESTDIR)$(CONFDIR)/app-defaults ]; then \
-	  $(RM) $(DESTDIR)$(CONFDIR)/app-defaults; \
-	fi
-	@if [ -d $(DESTDIR)$(LIBDIR)/. ]; then \
-		set +x; \
-	else \
-		if [ -h $(DESTDIR)$(LIBDIR)/. ]; then \
-			(set -x; rm -f $(DESTDIR)$(LIBDIR)/.); \
-		fi; \
-		(set -x; $(MKDIRHIER) $(DESTDIR)$(LIBDIR)/.); \
-	fi
-	@if [ -d $(DESTDIR)$(CONFDIR)/app-defaults ]; then \
-		set +x; \
-	else \
-		if [ -h $(DESTDIR)$(CONFDIR)/app-defaults ]; then \
-			(set -x; rm -f $(DESTDIR)$(CONFDIR)/app-defaults); \
-		fi; \
-		(set -x; $(MKDIRHIER) $(DESTDIR)$(CONFDIR)/app-defaults); \
-	fi
-	@for flag in ${MAKEFLAGS} ''; do \
-	  case "$$flag" in *=*) ;; --*) ;; *[i]*) set +e;; esac; done; \
-	if [ -d $(DESTDIR)$(LIBDIR)/. ]; then \
-	  RELPATH=`echo $(LIBDIR)/. | \
-		sed -e 's:^/::' -e 's:[^/.][^/]*:..:'g -e 's:/\.$$::'`; \
-	  cd $(DESTDIR)$(LIBDIR)/.; \
-	  if [ -d app-defaults -a ! -h app-defaults ]; then \
-	    (cd app-defaults; tar cf - . | \
-		(cd $(DESTDIR)$(CONFDIR)/app-defaults; \
-		 tar xf -; exit 0); exit 0); \
-	  fi; \
-	  $(RM) -r app-defaults; \
-	  $(LN) $${RELPATH}$(CONFDIR)/app-defaults .; \
-	fi
-
 install:: SWatch.ad
 	@if [ -d $(DESTDIR)$(XAPPLOADDIR) ]; then \
 		set +x; \
@@ -1126,43 +1113,6 @@ install:: SWatch.ad
 		(set -x; $(MKDIRHIER) $(DESTDIR)$(XAPPLOADDIR)); \
 	fi
 	$(INSTALL) $(INSTALLFLAGS) $(INSTAPPFLAGS) SWatch.ad $(DESTDIR)$(XAPPLOADDIR)/SwissWatch
-
-install::
-	@for flag in ${MAKEFLAGS} ''; do \
-	  case "$$flag" in *=*) ;; --*) ;; *[i]*) set +e;; esac; done; \
-	if [ -h $(DESTDIR)$(CONFDIR)/app-defaults ]; then \
-	  $(RM) $(DESTDIR)$(CONFDIR)/app-defaults; \
-	fi
-	@if [ -d $(DESTDIR)$(LIBDIR)/. ]; then \
-		set +x; \
-	else \
-		if [ -h $(DESTDIR)$(LIBDIR)/. ]; then \
-			(set -x; rm -f $(DESTDIR)$(LIBDIR)/.); \
-		fi; \
-		(set -x; $(MKDIRHIER) $(DESTDIR)$(LIBDIR)/.); \
-	fi
-	@if [ -d $(DESTDIR)$(CONFDIR)/app-defaults ]; then \
-		set +x; \
-	else \
-		if [ -h $(DESTDIR)$(CONFDIR)/app-defaults ]; then \
-			(set -x; rm -f $(DESTDIR)$(CONFDIR)/app-defaults); \
-		fi; \
-		(set -x; $(MKDIRHIER) $(DESTDIR)$(CONFDIR)/app-defaults); \
-	fi
-	@for flag in ${MAKEFLAGS} ''; do \
-	  case "$$flag" in *=*) ;; --*) ;; *[i]*) set +e;; esac; done; \
-	if [ -d $(DESTDIR)$(LIBDIR)/. ]; then \
-	  RELPATH=`echo $(LIBDIR)/. | \
-		sed -e 's:^/::' -e 's:[^/.][^/]*:..:'g -e 's:/\.$$::'`; \
-	  cd $(DESTDIR)$(LIBDIR)/.; \
-	  if [ -d app-defaults -a ! -h app-defaults ]; then \
-	    (cd app-defaults; tar cf - . | \
-		(cd $(DESTDIR)$(CONFDIR)/app-defaults; \
-		 tar xf -; exit 0); exit 0); \
-	  fi; \
-	  $(RM) -r app-defaults; \
-	  $(LN) $${RELPATH}$(CONFDIR)/app-defaults .; \
-	fi
 
 install:: SWatch-co.ad
 	@if [ -d $(DESTDIR)$(XAPPLOADDIR) ]; then \
@@ -1221,6 +1171,8 @@ clean:: cleandir
 
 distclean:: cleandir
 
+    PREPROCESSMANPAGES = true
+
 # ----------------------------------------------------------------------
 # empty rules for directories that do not have SUBDIRS - do not edit
 
@@ -1245,3 +1197,395 @@ distclean::
 # ----------------------------------------------------------------------
 # dependencies generated by makedepend
 
+# DO NOT DELETE
+swisswatch.o: swisswatch.c /usr/include/stdc-predef.h \
+ /usr/include/X11/Intrinsic.h /usr/include/X11/Xlib.h \
+ /usr/include/x86_64-linux-gnu/sys/types.h /usr/include/features.h \
+ /usr/include/features-time64.h \
+ /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+ /usr/include/x86_64-linux-gnu/bits/timesize.h \
+ /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+ /usr/include/x86_64-linux-gnu/bits/long-double.h \
+ /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+ /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+ /usr/include/x86_64-linux-gnu/bits/types.h \
+ /usr/include/x86_64-linux-gnu/bits/typesizes.h \
+ /usr/include/x86_64-linux-gnu/bits/time64.h \
+ /usr/include/x86_64-linux-gnu/bits/types/clock_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/time_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/timer_t.h \
+ /usr/lib/gcc/x86_64-linux-gnu/13/include/stddef.h \
+ /usr/include/x86_64-linux-gnu/bits/stdint-intn.h /usr/include/endian.h \
+ /usr/include/x86_64-linux-gnu/bits/endian.h \
+ /usr/include/x86_64-linux-gnu/bits/endianness.h \
+ /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+ /usr/include/x86_64-linux-gnu/bits/uintn-identity.h \
+ /usr/include/x86_64-linux-gnu/sys/select.h \
+ /usr/include/x86_64-linux-gnu/bits/select.h \
+ /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h \
+ /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
+ /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h \
+ /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
+ /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h \
+ /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
+ /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h /usr/include/X11/X.h \
+ /usr/include/X11/Xfuncproto.h /usr/include/X11/Xosdefs.h \
+ /usr/include/X11/Xutil.h /usr/include/X11/keysym.h \
+ /usr/include/X11/keysymdef.h /usr/include/X11/Xresource.h \
+ /usr/include/string.h \
+ /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
+ /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
+ /usr/include/strings.h /usr/include/X11/Core.h \
+ /usr/include/X11/Composite.h /usr/include/X11/Constraint.h \
+ /usr/include/X11/Object.h /usr/include/X11/RectObj.h \
+ /usr/include/X11/StringDefs.h SwissWatch.h /usr/include/stdio.h \
+ /usr/lib/gcc/x86_64-linux-gnu/13/include/stdarg.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__FILE.h \
+ /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h \
+ /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/floatn.h \
+ /usr/include/x86_64-linux-gnu/bits/floatn-common.h
+SwissW.o: SwissW.c /usr/include/stdc-predef.h \
+ /usr/include/X11/IntrinsicP.h /usr/include/X11/Intrinsic.h \
+ /usr/include/X11/Xlib.h /usr/include/x86_64-linux-gnu/sys/types.h \
+ /usr/include/features.h /usr/include/features-time64.h \
+ /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+ /usr/include/x86_64-linux-gnu/bits/timesize.h \
+ /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+ /usr/include/x86_64-linux-gnu/bits/long-double.h \
+ /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+ /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+ /usr/include/x86_64-linux-gnu/bits/types.h \
+ /usr/include/x86_64-linux-gnu/bits/typesizes.h \
+ /usr/include/x86_64-linux-gnu/bits/time64.h \
+ /usr/include/x86_64-linux-gnu/bits/types/clock_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/time_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/timer_t.h \
+ /usr/lib/gcc/x86_64-linux-gnu/13/include/stddef.h \
+ /usr/include/x86_64-linux-gnu/bits/stdint-intn.h /usr/include/endian.h \
+ /usr/include/x86_64-linux-gnu/bits/endian.h \
+ /usr/include/x86_64-linux-gnu/bits/endianness.h \
+ /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+ /usr/include/x86_64-linux-gnu/bits/uintn-identity.h \
+ /usr/include/x86_64-linux-gnu/sys/select.h \
+ /usr/include/x86_64-linux-gnu/bits/select.h \
+ /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h \
+ /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
+ /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h \
+ /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
+ /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h \
+ /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
+ /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h /usr/include/X11/X.h \
+ /usr/include/X11/Xfuncproto.h /usr/include/X11/Xosdefs.h \
+ /usr/include/X11/Xutil.h /usr/include/X11/keysym.h \
+ /usr/include/X11/keysymdef.h /usr/include/X11/Xresource.h \
+ /usr/include/string.h \
+ /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
+ /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
+ /usr/include/strings.h /usr/include/X11/Core.h \
+ /usr/include/X11/Composite.h /usr/include/X11/Constraint.h \
+ /usr/include/X11/Object.h /usr/include/X11/RectObj.h \
+ /usr/include/X11/CoreP.h /usr/include/X11/CompositeP.h \
+ /usr/include/X11/ConstrainP.h /usr/include/X11/ObjectP.h \
+ /usr/include/X11/RectObjP.h /usr/include/X11/StringDefs.h \
+ /usr/include/X11/Xmu/Xmu.h /usr/include/X11/Xmu/Atoms.h \
+ /usr/include/X11/Xmu/CharSet.h /usr/include/X11/Xmu/Converters.h \
+ /usr/include/X11/Xmu/Drawing.h /usr/include/stdio.h \
+ /usr/lib/gcc/x86_64-linux-gnu/13/include/stdarg.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__FILE.h \
+ /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h \
+ /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/floatn.h \
+ /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
+ /usr/include/X11/Xmu/Error.h /usr/include/X11/Xmu/StdSel.h \
+ /usr/include/X11/Xos.h /usr/include/fcntl.h \
+ /usr/include/x86_64-linux-gnu/bits/fcntl.h \
+ /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h \
+ /usr/include/x86_64-linux-gnu/bits/stat.h \
+ /usr/include/x86_64-linux-gnu/bits/struct_stat.h /usr/include/unistd.h \
+ /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
+ /usr/include/x86_64-linux-gnu/bits/environments.h \
+ /usr/include/x86_64-linux-gnu/bits/confname.h \
+ /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
+ /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
+ /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
+ /usr/include/x86_64-linux-gnu/sys/time.h /usr/include/time.h \
+ /usr/include/x86_64-linux-gnu/bits/time.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
+ /usr/include/X11/Xarch.h /usr/include/X11/extensions/shape.h \
+ /usr/include/X11/extensions/shapeconst.h SwissWatcP.h SwissWatch.h \
+ HandOrMarP.h HandOrMark.h Hand.h Mark.h /usr/include/math.h \
+ /usr/include/x86_64-linux-gnu/bits/math-vector.h \
+ /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
+ /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h \
+ /usr/include/x86_64-linux-gnu/bits/fp-logb.h \
+ /usr/include/x86_64-linux-gnu/bits/fp-fast.h \
+ /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h \
+ /usr/include/x86_64-linux-gnu/bits/mathcalls.h
+Hand.o: Hand.c /usr/include/stdc-predef.h /usr/include/X11/IntrinsicP.h \
+ /usr/include/X11/Intrinsic.h /usr/include/X11/Xlib.h \
+ /usr/include/x86_64-linux-gnu/sys/types.h /usr/include/features.h \
+ /usr/include/features-time64.h \
+ /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+ /usr/include/x86_64-linux-gnu/bits/timesize.h \
+ /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+ /usr/include/x86_64-linux-gnu/bits/long-double.h \
+ /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+ /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+ /usr/include/x86_64-linux-gnu/bits/types.h \
+ /usr/include/x86_64-linux-gnu/bits/typesizes.h \
+ /usr/include/x86_64-linux-gnu/bits/time64.h \
+ /usr/include/x86_64-linux-gnu/bits/types/clock_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/time_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/timer_t.h \
+ /usr/lib/gcc/x86_64-linux-gnu/13/include/stddef.h \
+ /usr/include/x86_64-linux-gnu/bits/stdint-intn.h /usr/include/endian.h \
+ /usr/include/x86_64-linux-gnu/bits/endian.h \
+ /usr/include/x86_64-linux-gnu/bits/endianness.h \
+ /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+ /usr/include/x86_64-linux-gnu/bits/uintn-identity.h \
+ /usr/include/x86_64-linux-gnu/sys/select.h \
+ /usr/include/x86_64-linux-gnu/bits/select.h \
+ /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h \
+ /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
+ /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h \
+ /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
+ /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h \
+ /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
+ /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h /usr/include/X11/X.h \
+ /usr/include/X11/Xfuncproto.h /usr/include/X11/Xosdefs.h \
+ /usr/include/X11/Xutil.h /usr/include/X11/keysym.h \
+ /usr/include/X11/keysymdef.h /usr/include/X11/Xresource.h \
+ /usr/include/string.h \
+ /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
+ /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
+ /usr/include/strings.h /usr/include/X11/Core.h \
+ /usr/include/X11/Composite.h /usr/include/X11/Constraint.h \
+ /usr/include/X11/Object.h /usr/include/X11/RectObj.h \
+ /usr/include/X11/CoreP.h /usr/include/X11/CompositeP.h \
+ /usr/include/X11/ConstrainP.h /usr/include/X11/ObjectP.h \
+ /usr/include/X11/RectObjP.h HandP.h HandOrMarP.h HandOrMark.h Hand.h \
+ SwissWatcP.h SwissWatch.h /usr/include/math.h \
+ /usr/include/x86_64-linux-gnu/bits/math-vector.h \
+ /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
+ /usr/include/x86_64-linux-gnu/bits/floatn.h \
+ /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
+ /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h \
+ /usr/include/x86_64-linux-gnu/bits/fp-logb.h \
+ /usr/include/x86_64-linux-gnu/bits/fp-fast.h \
+ /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h \
+ /usr/include/x86_64-linux-gnu/bits/mathcalls.h
+Mark.o: Mark.c /usr/include/stdc-predef.h /usr/include/X11/IntrinsicP.h \
+ /usr/include/X11/Intrinsic.h /usr/include/X11/Xlib.h \
+ /usr/include/x86_64-linux-gnu/sys/types.h /usr/include/features.h \
+ /usr/include/features-time64.h \
+ /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+ /usr/include/x86_64-linux-gnu/bits/timesize.h \
+ /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+ /usr/include/x86_64-linux-gnu/bits/long-double.h \
+ /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+ /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+ /usr/include/x86_64-linux-gnu/bits/types.h \
+ /usr/include/x86_64-linux-gnu/bits/typesizes.h \
+ /usr/include/x86_64-linux-gnu/bits/time64.h \
+ /usr/include/x86_64-linux-gnu/bits/types/clock_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/time_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/timer_t.h \
+ /usr/lib/gcc/x86_64-linux-gnu/13/include/stddef.h \
+ /usr/include/x86_64-linux-gnu/bits/stdint-intn.h /usr/include/endian.h \
+ /usr/include/x86_64-linux-gnu/bits/endian.h \
+ /usr/include/x86_64-linux-gnu/bits/endianness.h \
+ /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+ /usr/include/x86_64-linux-gnu/bits/uintn-identity.h \
+ /usr/include/x86_64-linux-gnu/sys/select.h \
+ /usr/include/x86_64-linux-gnu/bits/select.h \
+ /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h \
+ /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
+ /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h \
+ /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
+ /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h \
+ /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
+ /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h /usr/include/X11/X.h \
+ /usr/include/X11/Xfuncproto.h /usr/include/X11/Xosdefs.h \
+ /usr/include/X11/Xutil.h /usr/include/X11/keysym.h \
+ /usr/include/X11/keysymdef.h /usr/include/X11/Xresource.h \
+ /usr/include/string.h \
+ /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
+ /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
+ /usr/include/strings.h /usr/include/X11/Core.h \
+ /usr/include/X11/Composite.h /usr/include/X11/Constraint.h \
+ /usr/include/X11/Object.h /usr/include/X11/RectObj.h \
+ /usr/include/X11/CoreP.h /usr/include/X11/CompositeP.h \
+ /usr/include/X11/ConstrainP.h /usr/include/X11/ObjectP.h \
+ /usr/include/X11/RectObjP.h MarkP.h HandOrMarP.h HandOrMark.h Mark.h \
+ /usr/include/math.h /usr/include/x86_64-linux-gnu/bits/math-vector.h \
+ /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
+ /usr/include/x86_64-linux-gnu/bits/floatn.h \
+ /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
+ /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h \
+ /usr/include/x86_64-linux-gnu/bits/fp-logb.h \
+ /usr/include/x86_64-linux-gnu/bits/fp-fast.h \
+ /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h \
+ /usr/include/x86_64-linux-gnu/bits/mathcalls.h
+HandOrMark.o: HandOrMark.c /usr/include/stdc-predef.h \
+ /usr/include/X11/IntrinsicP.h /usr/include/X11/Intrinsic.h \
+ /usr/include/X11/Xlib.h /usr/include/x86_64-linux-gnu/sys/types.h \
+ /usr/include/features.h /usr/include/features-time64.h \
+ /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+ /usr/include/x86_64-linux-gnu/bits/timesize.h \
+ /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+ /usr/include/x86_64-linux-gnu/bits/long-double.h \
+ /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+ /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+ /usr/include/x86_64-linux-gnu/bits/types.h \
+ /usr/include/x86_64-linux-gnu/bits/typesizes.h \
+ /usr/include/x86_64-linux-gnu/bits/time64.h \
+ /usr/include/x86_64-linux-gnu/bits/types/clock_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/time_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/timer_t.h \
+ /usr/lib/gcc/x86_64-linux-gnu/13/include/stddef.h \
+ /usr/include/x86_64-linux-gnu/bits/stdint-intn.h /usr/include/endian.h \
+ /usr/include/x86_64-linux-gnu/bits/endian.h \
+ /usr/include/x86_64-linux-gnu/bits/endianness.h \
+ /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+ /usr/include/x86_64-linux-gnu/bits/uintn-identity.h \
+ /usr/include/x86_64-linux-gnu/sys/select.h \
+ /usr/include/x86_64-linux-gnu/bits/select.h \
+ /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h \
+ /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
+ /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h \
+ /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
+ /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h \
+ /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
+ /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h /usr/include/X11/X.h \
+ /usr/include/X11/Xfuncproto.h /usr/include/X11/Xosdefs.h \
+ /usr/include/X11/Xutil.h /usr/include/X11/keysym.h \
+ /usr/include/X11/keysymdef.h /usr/include/X11/Xresource.h \
+ /usr/include/string.h \
+ /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
+ /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
+ /usr/include/strings.h /usr/include/X11/Core.h \
+ /usr/include/X11/Composite.h /usr/include/X11/Constraint.h \
+ /usr/include/X11/Object.h /usr/include/X11/RectObj.h \
+ /usr/include/X11/CoreP.h /usr/include/X11/CompositeP.h \
+ /usr/include/X11/ConstrainP.h /usr/include/X11/ObjectP.h \
+ /usr/include/X11/RectObjP.h /usr/include/X11/StringDefs.h HandOrMarP.h \
+ HandOrMark.h SwissWatcP.h SwissWatch.h TableConvert.h \
+ /usr/include/X11/Xmu/Xmu.h /usr/include/X11/Xmu/Atoms.h \
+ /usr/include/X11/Xmu/CharSet.h /usr/include/X11/Xmu/Converters.h \
+ /usr/include/X11/Xmu/Drawing.h /usr/include/stdio.h \
+ /usr/lib/gcc/x86_64-linux-gnu/13/include/stdarg.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__FILE.h \
+ /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h \
+ /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/floatn.h \
+ /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
+ /usr/include/X11/Xmu/Error.h /usr/include/X11/Xmu/StdSel.h \
+ /usr/include/math.h /usr/include/x86_64-linux-gnu/bits/math-vector.h \
+ /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
+ /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h \
+ /usr/include/x86_64-linux-gnu/bits/fp-logb.h \
+ /usr/include/x86_64-linux-gnu/bits/fp-fast.h \
+ /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h \
+ /usr/include/x86_64-linux-gnu/bits/mathcalls.h
+TableConvert.o: TableConvert.c /usr/include/stdc-predef.h \
+ /usr/include/X11/Intrinsic.h /usr/include/X11/Xlib.h \
+ /usr/include/x86_64-linux-gnu/sys/types.h /usr/include/features.h \
+ /usr/include/features-time64.h \
+ /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+ /usr/include/x86_64-linux-gnu/bits/timesize.h \
+ /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+ /usr/include/x86_64-linux-gnu/bits/long-double.h \
+ /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+ /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+ /usr/include/x86_64-linux-gnu/bits/types.h \
+ /usr/include/x86_64-linux-gnu/bits/typesizes.h \
+ /usr/include/x86_64-linux-gnu/bits/time64.h \
+ /usr/include/x86_64-linux-gnu/bits/types/clock_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/time_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/timer_t.h \
+ /usr/lib/gcc/x86_64-linux-gnu/13/include/stddef.h \
+ /usr/include/x86_64-linux-gnu/bits/stdint-intn.h /usr/include/endian.h \
+ /usr/include/x86_64-linux-gnu/bits/endian.h \
+ /usr/include/x86_64-linux-gnu/bits/endianness.h \
+ /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+ /usr/include/x86_64-linux-gnu/bits/uintn-identity.h \
+ /usr/include/x86_64-linux-gnu/sys/select.h \
+ /usr/include/x86_64-linux-gnu/bits/select.h \
+ /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h \
+ /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
+ /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h \
+ /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
+ /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h \
+ /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
+ /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h /usr/include/X11/X.h \
+ /usr/include/X11/Xfuncproto.h /usr/include/X11/Xosdefs.h \
+ /usr/include/X11/Xutil.h /usr/include/X11/keysym.h \
+ /usr/include/X11/keysymdef.h /usr/include/X11/Xresource.h \
+ /usr/include/string.h \
+ /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
+ /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
+ /usr/include/strings.h /usr/include/X11/Core.h \
+ /usr/include/X11/Composite.h /usr/include/X11/Constraint.h \
+ /usr/include/X11/Object.h /usr/include/X11/RectObj.h \
+ /usr/include/X11/StringDefs.h TableConvert.h /usr/include/X11/Xmu/Xmu.h \
+ /usr/include/X11/Xmu/Atoms.h /usr/include/X11/Xmu/CharSet.h \
+ /usr/include/X11/Xmu/Converters.h /usr/include/X11/Xmu/Drawing.h \
+ /usr/include/stdio.h /usr/lib/gcc/x86_64-linux-gnu/13/include/stdarg.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__FILE.h \
+ /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h \
+ /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/floatn.h \
+ /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
+ /usr/include/X11/Xmu/Error.h /usr/include/X11/Xmu/StdSel.h
