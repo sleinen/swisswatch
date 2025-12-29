@@ -13,6 +13,7 @@
 #include <X11/Intrinsic.h>
 #include <X11/StringDefs.h>
 #include "SwissWatch.h"
+#include <stdlib.h>
 #include <stdio.h>
 
 #if NeedFunctionPrototypes
