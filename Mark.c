@@ -1,13 +1,8 @@
 /*****************************************************************************
  * File Name:	 Mark.c
  * Description:	 Mark widget class -- implementation
- * Author:	 Simon Leinen  <simon@switch.ch>
+ * Author:	 Simon Leinen  <simon@leinen.ch>
  * Date Created:  6-May-92
- * RCS $Header: /home/leinen/X/src/swisswatch-0.06/RCS/Mark.c,v 1.1 1999/12/15 09:17:39 leinen Exp leinen $	 
- * RCS $Log: Mark.c,v $
- * RCS Revision 1.1  1999/12/15 09:17:39  leinen
- * RCS Initial revision
- * RCS	 
  ****************************************************************************/
 
 #define _XOPEN_SOURCE

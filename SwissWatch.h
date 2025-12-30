@@ -1,10 +1,8 @@
 /*****************************************************************************
  * File Name:	 SwissWatch.h
  * Description:	 SwissWatch widget -- public header file
- * Author:	 Simon Leinen (simon@liasun6)
+ * Author:	 Simon Leinen  <simon@leinen.ch>
  * Date Created: 12-Mar-92
- * RCS $Header$	 
- * RCS $Log$	 
  ****************************************************************************/
 
 #ifndef _SwissWatch_h_

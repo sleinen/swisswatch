@@ -1,10 +1,8 @@
 /*****************************************************************************
  * File Name:	 SwissWatch.c
  * Description:	 Swisswatch widget class -- implementation
- * Author:	 Simon Leinen (simon@liasun5)
+ * Author:	 Simon Leinen  <simon@leinen.ch>
  * Date Created:  6-May-92
- * RCS $Header$	 
- * RCS $Log$	 
  ****************************************************************************/
 
 #include <X11/IntrinsicP.h>

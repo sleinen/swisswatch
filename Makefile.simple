@@ -1,10 +1,8 @@
 ##############################################################################
 # File Name:	Makefile.simple
 # Description:	Makefile for the imake-deprived
-# Author:	Logiciels X11 (x11@lia.di.epfl.ch)
+# Author:	Simon Leinen  <simon@leinen.ch>
 # Date Created:	17-Jan-93
-# RCS $Header$	
-# RCS $Log$	
 ##############################################################################
 ## Edit and uncomment this line if you don't have the X11 include
 ## files under /usr/include/X11

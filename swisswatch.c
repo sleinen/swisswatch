@@ -1,13 +1,8 @@
 /*****************************************************************************
  * File Name:	 swisswatch.c
  * Description:	 Swiss X Watch
- * Author:	 Simon Leinen  <simon@switch.ch>
+ * Author:	 Simon Leinen  <simon@leinen.ch>
  * Date Created: 10-Mar-92
- * RCS $Header: /home/leinen/X/src/swisswatch-0.06/RCS/swisswatch.c,v 1.1 1999/12/15 09:20:11 leinen Exp leinen $	 
- * RCS $Log: swisswatch.c,v $
- * RCS Revision 1.1  1999/12/15 09:20:11  leinen
- * RCS Initial revision
- * RCS	 
  ****************************************************************************/
 
 #include <X11/Intrinsic.h>

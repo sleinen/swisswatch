@@ -1,10 +1,8 @@
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!! File Name:	  SWatch.ad
 !!! Description:  Application defaults for the SwissWatch application class
-!!! Author:	  Simon Leinen (simon@liasun6.epfl.ch)
+!!! Author:	  Simon Leinen  <simon@leinen.ch>
 !!! Date Created: 12-Mar-92
-!!! RCS $Header$  
-!!! RCS $Log$	  
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 *SwissWatch.TickTime:		1

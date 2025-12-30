@@ -1,10 +1,8 @@
 /*****************************************************************************
  * File Name:	 TableConvert.c
  * Description:	 Generic XtRString to Enum Conversion Using Tables
- * Author:	 Simon Leinen (simon@liasun6)
+ * Author:	 Simon Leinen  <simon@leinen.ch>
  * Date Created:  5-Jul-91
- * RCS $Header$	 
- * RCS $Log$	 
  ****************************************************************************/
 
 #include <X11/Intrinsic.h>

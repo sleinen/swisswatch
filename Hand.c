@@ -1,13 +1,8 @@
 /*****************************************************************************
  * File Name:	 Hand.c
  * Description:	 Hand widget class -- implementation
- * Author:	 Simon Leinen  <simon@switch.ch>
+ * Author:	 Simon Leinen  <simon@leinen.ch>
  * Date Created:  6-May-92
- * RCS $Header: /home/leinen/X/src/swisswatch-0.06/RCS/Hand.c,v 1.1 1999/12/15 09:17:23 leinen Exp leinen $	 
- * RCS $Log: Hand.c,v $
- * RCS Revision 1.1  1999/12/15 09:17:23  leinen
- * RCS Initial revision
- * RCS	 
  ****************************************************************************/
 
 #define _XOPEN_SOURCE

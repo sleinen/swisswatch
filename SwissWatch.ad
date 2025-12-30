@@ -1,10 +1,8 @@
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!! File Name:	  SwissWatch.ad
 !!! Description:  pre-X11R5 version of the app-defaults file
-!!! Author:	  Simon Leinen (simon@liasun6.epfl.ch)
+!!! Author:	  Simon Leinen  <simon@leinen.ch>
 !!! Date Created: 12-Mar-92
-!!! RCS $Header$  
-!!! RCS $Log$	  
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 swisswatch*SwissWatch.child_4.foreground:		green
